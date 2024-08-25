@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - FirstClassDetailing
+name: Build and deploy ASP.Net Core app to Azure Web App - app-240825151850
 
 on:
   push:
@@ -25,13 +25,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{ runner.workspace }}/FirstClassDetailing
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/FirstClassDetailing
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{ runner.workspace }}/FirstClassDetailing
+          path: ${{env.DOTNET_ROOT}}/FirstClassDetailing
 
   deploy:
     runs-on: windows-latest
@@ -40,13 +40,13 @@ jobs:
       name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write  # This is required for requesting the JWT
+      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: FirstClassDetailing
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -59,6 +59,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'app-240825151850'  # Your Azure App Service name
+          app-name: 'app-240825151850'
           slot-name: 'production'
-          package: ${{ runner.workspace }}/FirstClassDetailing
+          package: .
+          
