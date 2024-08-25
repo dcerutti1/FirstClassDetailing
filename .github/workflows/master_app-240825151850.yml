@@ -30,7 +30,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
+          name: FirstClassDetailing
           path: C:\Users\doria\source\repos\FirstClassDetailing\FirstClassDetailing
 
   deploy:
